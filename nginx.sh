@@ -1,7 +1,7 @@
 #!/bin/bash
 ############### 一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2017-04-07
+#Update:2017-11-14
 ####################### END #######################
 
 #对系统进行判断
@@ -54,7 +54,7 @@ useradd -g www www
 #安装pcre
 #$setupf -y install gcc gcc-c++ perl unzip
 cd /usr/local
-wget http://soft.hixz.org/linux/pcre-8.39.tar.gz
+wget http://soft.xiaoz.org/linux/pcre-8.39.tar.gz
 tar -zxvf pcre-8.39.tar.gz
 cd pcre-8.39
 ./configure
@@ -64,7 +64,7 @@ rm -rf /usr/local/pcre-8.39.tar.gz
 
 #安装zlib
 cd /usr/local
-wget https://soft.hixz.org/linux/zlib-1.2.11.tar.gz
+wget http://soft.xiaoz.org/linux/zlib-1.2.11.tar.gz
 tar -zxvf zlib-1.2.11.tar.gz
 cd zlib-1.2.11
 ./configure
@@ -74,7 +74,7 @@ rm -rf /usr/local/zlib-1.2.11.tar.gz
 
 #安装openssl
 cd /usr/local
-wget https://soft.hixz.org/linux/openssl-1.1.0e.tar.gz
+wget http://soft.xiaoz.org/linux/openssl-1.1.0e.tar.gz
 tar -zxvf openssl-1.1.0e.tar.gz
 cd openssl-1.1.0e
 ./config
@@ -84,31 +84,40 @@ rm -rf /usr/local/openssl-1.1.0e.tar.gz
 
 #下载stub_status_module
 cd /usr/local
-wget https://soft.hixz.org/nginx/ngx_http_substitutions_filter_module.zip
-tar -zxvf ngx_http_substitutions_filter_module.zip
-#安装unzip
+wget http://soft.xiaoz.org/nginx/ngx_http_substitutions_filter_module.zip
 unzip ngx_http_substitutions_filter_module.zip
 rm -rf /usr/local/ngx_http_substitutions_filter_module.zip
 
+#下载purecache模块
+cd /usr/local && wget http://soft.xiaoz.org/nginx/ngx_cache_purge-2.3.tar.gz
+tar -zxvf ngx_cache_purge-2.3.tar.gz
+mv ngx_cache_purge-2.3 ngx_cache_purge
+rm -rf ngx_cache_purge-2.3.tar.gz
+
+
+
 #安装Nginx
 cd /usr/local
-wget https://soft.hixz.org/linux/nginx-1.10.3.tar.gz
-tar -zxvf nginx-1.10.3.tar.gz
-cd nginx-1.10.3
-./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0e --add-module=/usr/local/ngx_http_substitutions_filter_module
+wget http://nginx.org/download/nginx-1.12.2.tar.gz
+tar -zxvf nginx-1.12.2.tar.gz
+cd nginx-1.12.2
+./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0e --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
 make
 make install
 
 #复制配置文件
 mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
-wget http://soft.hixz.org/nginx/nginx.conf -P /usr/local/nginx/conf/
+wget http://soft.xiaoz.org/nginx/nginx.conf -P /usr/local/nginx/conf/
 mkdir -p /usr/local/nginx/conf/vhost
 /usr/local/nginx/sbin/nginx
 
 #环境变量与服务
 echo "export PATH=$PATH:/usr/local/nginx/sbin" >> /etc/profile
 export PATH=$PATH:'/usr/local/nginx/sbin'
-wget http://soft.hixz.org/nginx/nginx -P /etc/init.d
+wget http://soft.xiaoz.org/nginx/nginx -P /etc/init.d
 chmod u+x /etc/init.d/nginx
+
+#开机自启
+echo "/usr/local/nginx/sbin" >> /etc/rc.local
 
 echo "Nginx installed successfully. Please visit the http://${osip}"
