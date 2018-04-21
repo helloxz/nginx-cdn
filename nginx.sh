@@ -157,8 +157,22 @@ function BinaryInstall(){
 	echo "Nginx installed successfully. Please visit the http://${osip}"
 }
 
-#选择安装方式
+#卸载Nginx
+function uninstall(){
+	# 杀掉nginx进程
+	pkill nginx
+	#删除www用户
+	userdel www && groupdel www 
+	#备份一下配置
+	cp -a /usr/local/nginx/conf/vhost /home/vhost_bak
+	#删除目录
+	rm -rf /usr/local/nginx
+	sed -i "s%:/usr/local/nginx/sbin%%g" /etc/profile
+	#删除自启
+    sed -i '/^.*nginx/d' /etc/rc.d/rc.local
+}
 
+#选择安装方式
 echo "------------------------------------------------"
 echo "欢迎使用Nginx一键安装脚本^_^，请先选择安装方式："
 echo "1) 编译安装，支持CentOS 6/7"
@@ -181,19 +195,10 @@ case $istype in
     	BinaryInstall
     ;;
     3) 
-    	# 杀掉nginx进程
-    	pkill nginx
-    	#删除www用户
-    	userdel www && groupdel www 
-    	#备份一下配置
-    	cp -a /usr/local/nginx/conf/vhost /home/vhost_bak
-    	#删除目录
-    	rm -rf /usr/local/nginx
-    	sed -i "s%:/usr/local/nginx/sbin%%g" /etc/profile
+    	#执行卸载函数
+    	uninstall
     	#删除端口
     	DelPort
-    	#删除自启
-    	sed -i '/^.*nginx/d' /etc/rc.d/rc.local
     	echo 'Uninstall complete.'
     ;;
     q) 
