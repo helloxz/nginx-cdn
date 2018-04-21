@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15
+# description:  Nginx is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP/POP3 proxy server
+# processname: nginx
+# config:      /usr/local/nginx/conf/nginx.conf
+# pidfile:     /var/run/nginx.pid
+
+case $1 in
+        'start') 
+        	/usr/local/nginx/sbin/nginx
+        	echo 'Nginx started successfully.'
+        	echo '----------------------------'
+        	ps -ef|grep 'nginx'
+        	echo '----------------------------'
+        ;;
+        'reload') 
+        	/usr/local/nginx/sbin/nginx -s quit
+        	/usr/local/nginx/sbin/nginx -s stop
+        	pkill nginx
+        	echo 'Nginx stopped succeeding.'
+        ;;
+        3) echo '数字3'
+        ;;
+        4) echo '数字4'
+        ;;
+        *) echo '不是1-4'
+esac
