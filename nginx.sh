@@ -1,7 +1,7 @@
 #!/bin/bash
 ############### 一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2017-11-14
+#Update:2018-04-21
 ####################### END #######################
 
 #对系统进行判断
@@ -26,7 +26,7 @@ function check_os(){
 }
 #获取服务器公网IP
 function get_ip(){
-	osip=$(curl http://https.tn/ip/myip.php?type=onlyip)
+	osip=$(curl https://ip.awk.sh/api.php?data=ip)
 	echo $osip
 }
 #防火墙放行端口
@@ -68,8 +68,7 @@ wget http://soft.xiaoz.org/linux/zlib-1.2.11.tar.gz
 tar -zxvf zlib-1.2.11.tar.gz
 cd zlib-1.2.11
 ./configure
-make
-make install
+make && make install
 rm -rf /usr/local/zlib-1.2.11.tar.gz
 
 #安装openssl
@@ -78,8 +77,7 @@ wget http://soft.xiaoz.org/linux/openssl-1.1.0e.tar.gz
 tar -zxvf openssl-1.1.0e.tar.gz
 cd openssl-1.1.0e
 ./config
-make 
-make install
+make && make install
 rm -rf /usr/local/openssl-1.1.0e.tar.gz
 
 #下载stub_status_module
@@ -98,9 +96,9 @@ rm -rf ngx_cache_purge-2.3.tar.gz
 
 #安装Nginx
 cd /usr/local
-wget http://nginx.org/download/nginx-1.12.2.tar.gz
-tar -zxvf nginx-1.12.2.tar.gz
-cd nginx-1.12.2
+wget http://nginx.org/download/nginx-1.14.0.tar.gz
+tar -zxvf nginx-1.14.0.tar.gz
+cd nginx-1.14.0
 ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0e --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
 make
 make install
@@ -114,10 +112,8 @@ mkdir -p /usr/local/nginx/conf/vhost
 #环境变量与服务
 echo "export PATH=$PATH:/usr/local/nginx/sbin" >> /etc/profile
 export PATH=$PATH:'/usr/local/nginx/sbin'
-wget http://soft.xiaoz.org/nginx/nginx -P /etc/init.d
-chmod u+x /etc/init.d/nginx
 
 #开机自启
-echo "/usr/local/nginx/sbin" >> /etc/rc.local
+echo "/usr/local/nginx/sbin" >> /etc/rc.d/rc.local
 
 echo "Nginx installed successfully. Please visit the http://${osip}"
