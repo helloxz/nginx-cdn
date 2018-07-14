@@ -1,7 +1,7 @@
 #!/bin/bash
-############### 一键安装Nginx脚本 ###############
+############### CentOS一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2018-04-21
+#Update:2018-07-14
 ####################### END #######################
 
 
@@ -81,12 +81,12 @@ function CompileInstall(){
 
 	#安装openssl
 	cd /usr/local
-	wget http://soft.xiaoz.org/linux/openssl-1.1.0e.tar.gz
-	tar -zxvf openssl-1.1.0e.tar.gz
-	cd openssl-1.1.0e
+	wget http://soft.xiaoz.org/linux/openssl-1.1.0h.tar.gz
+	tar -zxvf openssl-1.1.0h.tar.gz
+	cd openssl-1.1.0h
 	./config
 	make && make install
-	rm -rf /usr/local/openssl-1.1.0e.tar.gz
+	rm -rf /usr/local/openssl-1.1.0h.tar.gz
 
 	#下载stub_status_module
 	cd /usr/local
@@ -105,7 +105,7 @@ function CompileInstall(){
 	wget http://nginx.org/download/nginx-1.14.0.tar.gz
 	tar -zxvf nginx-1.14.0.tar.gz
 	cd nginx-1.14.0
-	./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0e --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
+	./configure --prefix=/usr/local/nginx --user=www --group=www --with-stream --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0e --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
 	make && make install
 
 	#一点点清理工作
@@ -118,7 +118,7 @@ function CompileInstall(){
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
-	wget http://soft.xiaoz.org/nginx/nginx.conf -P /usr/local/nginx/conf/
+	wget https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
 	mkdir -p /usr/local/nginx/conf/vhost
 	/usr/local/nginx/sbin/nginx
 
