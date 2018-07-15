@@ -62,7 +62,7 @@ function DelPort(){
 function CompileInstall(){
 	#创建用户和用户组
 	groupadd www
-	useradd -g www www
+	useradd -M -g www www -s /sbin/nologin
 	#安装pcre
 	#$setupf -y install gcc gcc-c++ perl unzip
 	cd /usr/local
@@ -139,7 +139,7 @@ function CompileInstall(){
 function BinaryInstall(){
 	#创建用户和用户组
 	groupadd www
-	useradd -g www www
+	useradd -M -g www www -s /sbin/nologin
 
 	#下载到指定目录
 	wget http://soft.xiaoz.org/nginx/nginx-binary-1.14.0.tar.gz -P /usr/local
