@@ -4,6 +4,10 @@
 #Update:2018-07-14
 ####################### END #######################
 
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+export PATH
+
+dir='/usr/local/'
 
 #对系统进行判断
 function check_os(){
@@ -66,8 +70,7 @@ function CompileInstall(){
 	tar -zxvf pcre-8.39.tar.gz
 	cd pcre-8.39
 	./configure
-	make 
-	make install
+	make -j4 && make -j4 install
 	rm -rf /usr/local/pcre-8.39.tar.gz
 
 	#安装zlib
@@ -76,7 +79,7 @@ function CompileInstall(){
 	tar -zxvf zlib-1.2.11.tar.gz
 	cd zlib-1.2.11
 	./configure
-	make && make install
+	make -j4 && make -j4 install
 	rm -rf /usr/local/zlib-1.2.11.tar.gz
 
 	#安装openssl
@@ -85,7 +88,7 @@ function CompileInstall(){
 	tar -zxvf openssl-1.1.0h.tar.gz
 	cd openssl-1.1.0h
 	./config
-	make && make install
+	make -j4 && make -j4 install
 	rm -rf /usr/local/openssl-1.1.0h.tar.gz
 
 	#下载stub_status_module
@@ -105,16 +108,16 @@ function CompileInstall(){
 	wget http://nginx.org/download/nginx-1.14.0.tar.gz
 	tar -zxvf nginx-1.14.0.tar.gz
 	cd nginx-1.14.0
-	./configure --prefix=/usr/local/nginx --user=www --group=www --with-stream --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0e --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
-	make && make install
+	./configure --prefix=/usr/local/nginx --user=www --group=www --with-stream --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0h --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
+	make -j4 && make -j4 install
 
 	#一点点清理工作
-	rm -rf nginx-1.14.0*
-	rm -rf zlib-1.2.11
-	rm -rf pcre-8.39
-	rm -rf openssl-1.1.0e
-	rm -rf ngx_http_substitutions_filter_module
-	rm -rf ngx_cache_purge
+	rm -rf ${dir}nginx-1.14.0*
+	rm -rf ${dir}zlib-1.2.11
+	rm -rf ${dir}pcre-8.39
+	rm -rf ${dir}openssl-1.1.0h
+	rm -rf ${dir}ngx_http_substitutions_filter_module
+	rm -rf ${dir}ngx_cache_purge
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
