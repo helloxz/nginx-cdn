@@ -117,8 +117,9 @@ function CompileInstall(){
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
 	--with-pcre=/usr/local/pcre-8.39 \
-	--with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 \
-	--with-openssl=/usr/local/openssl-1.1.0h \
+	--with-pcre-jit \
+	--with-zlib=/usr/local/zlib-1.2.11 \
+	--with-openssl=/usr/local/openssl-1.1.1 \
 	--add-module=/usr/local/ngx_http_substitutions_filter_module \
 	--add-module=/usr/local/ngx_cache_purge
 	make -j4 && make -j4 install

@@ -7,7 +7,7 @@ CentOS一键安装Nginx
 ### 当前版本
 * nginx/1.14.0
 
-#### 已编译模板
+#### 已编译模块
 * --with-stream
 * --with-http_stub_status_module
 * --with-http_v2_module
@@ -17,7 +17,7 @@ CentOS一键安装Nginx
 * --with-pcre-jit
 * pcre-8.39
 * zlib-1.2.11
-* openssl-1.1.0h
+* openssl-1.1.1
 * ngx_http_substitutions_filter_module
 * ngx_cache_purge
 
