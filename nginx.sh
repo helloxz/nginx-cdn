@@ -1,10 +1,10 @@
 #!/bin/bash
 ############### CentOS一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2018-07-14
+#Update:2018-10-19
 ####################### END #######################
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 dir='/usr/local/'
@@ -58,66 +58,78 @@ function DelPort(){
 	fi
 }
 
-#编译安装Nginx
-function CompileInstall(){
-	#创建用户和用户组
-	groupadd www
-	useradd -M -g www www -s /sbin/nologin
+#安装依赖环境
+function depend(){
 	#安装pcre
-	#$setupf -y install gcc gcc-c++ perl unzip
-	cd /usr/local
+	cd ${dir}
 	wget http://soft.xiaoz.org/linux/pcre-8.39.tar.gz
 	tar -zxvf pcre-8.39.tar.gz
 	cd pcre-8.39
 	./configure
 	make -j4 && make -j4 install
-	rm -rf /usr/local/pcre-8.39.tar.gz
-
 	#安装zlib
-	cd /usr/local
+	cd ${dir}
 	wget http://soft.xiaoz.org/linux/zlib-1.2.11.tar.gz
 	tar -zxvf zlib-1.2.11.tar.gz
 	cd zlib-1.2.11
 	./configure
 	make -j4 && make -j4 install
-	rm -rf /usr/local/zlib-1.2.11.tar.gz
-
 	#安装openssl
-	cd /usr/local
-	wget http://soft.xiaoz.org/linux/openssl-1.1.0h.tar.gz
-	tar -zxvf openssl-1.1.0h.tar.gz
-	cd openssl-1.1.0h
+	cd ${dir}
+	wget --no-check-certificate -O openssl.tar.gz https://wget.ovh/linux/openssl-1.1.1.tar.gz
+	tar -zxvf openssl.tar.gz
+	cd openssl-1.1.1
 	./config
 	make -j4 && make -j4 install
-	rm -rf /usr/local/openssl-1.1.0h.tar.gz
+}
+#清理工作
 
-	#下载stub_status_module
+#编译安装Nginx
+function CompileInstall(){
+	#创建用户和用户组
+	groupadd www
+	useradd -M -g www www -s /sbin/nologin
+	
+	#rm -rf /usr/local/pcre-8.39.tar.gz
+	#rm -rf /usr/local/zlib-1.2.11.tar.gz
+	#rm -rf /usr/local/openssl-1.1.0h.tar.gz
+
+	#下载stub_status_module模块
 	cd /usr/local
 	wget http://soft.xiaoz.org/nginx/ngx_http_substitutions_filter_module.zip
 	unzip ngx_http_substitutions_filter_module.zip
-	rm -rf /usr/local/ngx_http_substitutions_filter_module.zip
 
 	#下载purecache模块
 	cd /usr/local && wget http://soft.xiaoz.org/nginx/ngx_cache_purge-2.3.tar.gz
 	tar -zxvf ngx_cache_purge-2.3.tar.gz
 	mv ngx_cache_purge-2.3 ngx_cache_purge
-	rm -rf ngx_cache_purge-2.3.tar.gz
 
 	#安装Nginx
 	cd /usr/local
 	wget http://nginx.org/download/nginx-1.14.0.tar.gz
 	tar -zxvf nginx-1.14.0.tar.gz
 	cd nginx-1.14.0
-	./configure --prefix=/usr/local/nginx --user=www --group=www --with-stream --with-http_stub_status_module --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-pcre=/usr/local/pcre-8.39 --with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 --with-openssl=/usr/local/openssl-1.1.0h --add-module=/usr/local/ngx_http_substitutions_filter_module --add-module=/usr/local/ngx_cache_purge
+	./configure --prefix=/usr/local/nginx --user=www --group=www \
+	--with-stream \
+	--with-http_stub_status_module \
+	--with-http_v2_module \
+	--with-http_ssl_module \
+	--with-http_gzip_static_module \
+	--with-http_realip_module \
+	--with-pcre=/usr/local/pcre-8.39 \
+	--with-pcre-jit --with-zlib=/usr/local/zlib-1.2.11 \
+	--with-openssl=/usr/local/openssl-1.1.0h \
+	--add-module=/usr/local/ngx_http_substitutions_filter_module \
+	--add-module=/usr/local/ngx_cache_purge
 	make -j4 && make -j4 install
 
 	#一点点清理工作
 	rm -rf ${dir}nginx-1.14.0*
-	rm -rf ${dir}zlib-1.2.11
-	rm -rf ${dir}pcre-8.39
-	rm -rf ${dir}openssl-1.1.0h
-	rm -rf ${dir}ngx_http_substitutions_filter_module
-	rm -rf ${dir}ngx_cache_purge
+	rm -rf ${dir}zlib-1.*
+	rm -rf ${dir}pcre-8.*
+	rm -rf ${dir}openssl*
+	rm -rf ${dir}ngx_http_substitutions_filter_module*
+	rm -rf ${dir}ngx_cache_purge*
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
@@ -189,6 +201,9 @@ case $istype in
     	check_os
     	get_ip
     	chk_firewall
+    	#安装依赖
+    	depend
+    	#安装nginx
     	CompileInstall
     ;;
     2) 
