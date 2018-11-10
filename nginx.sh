@@ -26,7 +26,7 @@ function check_os(){
 }
 #获取服务器公网IP
 function get_ip(){
-	osip=$(curl https://ip.awk.sh/api.php?data=ip)
+	osip=$(curl https://api.ttt.sh/ip/qqwry/?type=ip)
 	echo $osip
 }
 #防火墙放行端口
@@ -106,9 +106,9 @@ function CompileInstall(){
 
 	#安装Nginx
 	cd /usr/local
-	wget http://nginx.org/download/nginx-1.14.0.tar.gz
-	tar -zxvf nginx-1.14.0.tar.gz
-	cd nginx-1.14.0
+	wget http://nginx.org/download/nginx-1.14.1.tar.gz
+	tar -zxvf nginx-1.14.1.tar.gz
+	cd nginx-1.14.1
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
 	--with-stream \
 	--with-http_stub_status_module \
@@ -125,7 +125,7 @@ function CompileInstall(){
 	make -j4 && make -j4 install
 
 	#一点点清理工作
-	rm -rf ${dir}nginx-1.14.0*
+	rm -rf ${dir}nginx-1.*
 	rm -rf ${dir}zlib-1.*
 	rm -rf ${dir}pcre-8.*
 	rm -rf ${dir}openssl*
