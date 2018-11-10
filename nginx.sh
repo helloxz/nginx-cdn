@@ -155,10 +155,10 @@ function BinaryInstall(){
 	useradd -M -g www www -s /sbin/nologin
 
 	#下载到指定目录
-	wget http://soft.xiaoz.org/nginx/nginx-binary-1.14.0.tar.gz -P /usr/local
+	wget http://soft.xiaoz.org/nginx/nginx-binary-1.14.1.tar.gz -O /usr/local/nginx.tar.gz
 
 	#解压
-	cd /usr/local && tar -zxvf nginx-binary-1.14.0.tar.gz
+	cd /usr/local && tar -zxvf nginx.tar.gz
 
 	#环境变量
 	echo "export PATH=$PATH:/usr/local/nginx/sbin" >> /etc/profile

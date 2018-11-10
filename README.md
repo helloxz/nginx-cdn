@@ -5,7 +5,7 @@ CentOS一键安装Nginx
 * CentOS 6/7
 
 ### 当前版本
-* nginx/1.14.0
+* nginx/1.14.1
 
 #### 已编译模块
 * --with-stream
