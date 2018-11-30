@@ -1,7 +1,7 @@
 #!/bin/bash
 ############### CentOS一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2018-10-19
+#Update:2018-11-30
 ####################### END #######################
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
@@ -136,6 +136,7 @@ function CompileInstall(){
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
 	wget https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
 	mkdir -p /usr/local/nginx/conf/vhost
+	mkdir -p /usr/local/nginx/conf/cdn
 	/usr/local/nginx/sbin/nginx
 
 	#环境变量与服务
