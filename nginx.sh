@@ -135,6 +135,8 @@ function CompileInstall(){
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
 	wget https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
+	#日志分割
+	wget https://raw.githubusercontent.com/helloxz/nginx-cdn/master/etc/logrotate.d/nginx /etc/logrotate.d/
 	mkdir -p /usr/local/nginx/conf/vhost
 	mkdir -p /usr/local/nginx/conf/cdn
 	/usr/local/nginx/sbin/nginx
