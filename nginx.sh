@@ -1,14 +1,19 @@
 #!/bin/bash
 ############### CentOS一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2018-11-30
+#Update:2019-03-19
 ####################### END #######################
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 dir='/usr/local/'
-
+#定义nginx版本
+nginx_version='1.14.2'
+#定义openssl版本
+openssl_version='$1.1.1b'
+#定义pcre版本
+pcre_version='8.43'
 #对系统进行判断
 function check_os(){
 	#CentOS
@@ -62,9 +67,9 @@ function DelPort(){
 function depend(){
 	#安装pcre
 	cd ${dir}
-	wget http://soft.xiaoz.org/linux/pcre-8.39.tar.gz
-	tar -zxvf pcre-8.39.tar.gz
-	cd pcre-8.39
+	wget https://ftp.pcre.org/pub/pcre/pcre-${pcre_version}tar.gz
+	tar -zxvf ${pcre_version}.tar.gz
+	cd ${pcre_version}
 	./configure
 	make -j4 && make -j4 install
 	#安装zlib
@@ -76,9 +81,9 @@ function depend(){
 	make -j4 && make -j4 install
 	#安装openssl
 	cd ${dir}
-	wget --no-check-certificate -O openssl.tar.gz https://wget.ovh/linux/openssl-1.1.1.tar.gz
+	wget --no-check-certificate -O openssl.tar.gz https://www.openssl.org/source/openssl-${openssl_version}.tar.gz
 	tar -zxvf openssl.tar.gz
-	cd openssl-1.1.1
+	cd openssl-${openssl_version}
 	./config
 	make -j4 && make -j4 install
 }
@@ -104,11 +109,15 @@ function CompileInstall(){
 	tar -zxvf ngx_cache_purge-2.3.tar.gz
 	mv ngx_cache_purge-2.3 ngx_cache_purge
 
+	#下载brotli
+	wget http://soft.xiaoz.org/nginx/ngx_brotli.tar.gz
+	tar -zxvf ngx_brotli.tar.gz
+
 	#安装Nginx
 	cd /usr/local
-	wget http://nginx.org/download/nginx-1.14.1.tar.gz
-	tar -zxvf nginx-1.14.1.tar.gz
-	cd nginx-1.14.1
+	wget http://nginx.org/download/nginx-${nginx_version}.tar.gz
+	tar -zxvf nginx-${nginx_version}.tar.gz
+	cd nginx-${nginx_version}
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
 	--with-stream \
 	--with-http_stub_status_module \
@@ -116,12 +125,13 @@ function CompileInstall(){
 	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
-	--with-pcre=/usr/local/pcre-8.39 \
+	--with-pcre=../pcre-${pcre_version} \
 	--with-pcre-jit \
-	--with-zlib=/usr/local/zlib-1.2.11 \
-	--with-openssl=/usr/local/openssl-1.1.1 \
-	--add-module=/usr/local/ngx_http_substitutions_filter_module \
-	--add-module=/usr/local/ngx_cache_purge
+	--with-zlib=../zlib-1.2.11 \
+	--with-openssl=../openssl-${openssl_version} \
+	--add-module=../ngx_http_substitutions_filter_module \
+	--add-module=../ngx_cache_purge \
+	--add-module=../ngx_brotli
 	make -j4 && make -j4 install
 
 	#一点点清理工作
@@ -131,6 +141,7 @@ function CompileInstall(){
 	rm -rf ${dir}openssl*
 	rm -rf ${dir}ngx_http_substitutions_filter_module*
 	rm -rf ${dir}ngx_cache_purge*
+	rm -rf ${dir}ngx_brotli*
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
@@ -158,7 +169,7 @@ function BinaryInstall(){
 	useradd -M -g www www -s /sbin/nologin
 
 	#下载到指定目录
-	wget http://soft.xiaoz.org/nginx/nginx-binary-1.14.1.tar.gz -O /usr/local/nginx.tar.gz
+	wget http://soft.xiaoz.org/nginx/nginx-binary-${nginx_version}.tar.gz -O /usr/local/nginx.tar.gz
 
 	#解压
 	cd /usr/local && tar -zxvf nginx.tar.gz
