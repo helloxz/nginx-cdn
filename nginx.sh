@@ -11,7 +11,7 @@ dir='/usr/local/'
 #定义nginx版本
 nginx_version='1.14.2'
 #定义openssl版本
-openssl_version='$1.1.1b'
+openssl_version='1.1.1b'
 #定义pcre版本
 pcre_version='8.43'
 #对系统进行判断
@@ -125,7 +125,7 @@ function CompileInstall(){
 	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
-	--with-pcre=../pcre-{pcre_version} \
+	--with-pcre=../pcre-${pcre_version} \
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
 	--with-openssl=../openssl-${openssl_version} \
