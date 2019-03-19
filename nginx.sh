@@ -9,11 +9,11 @@ export PATH
 
 dir='/usr/local/'
 #定义nginx版本
-nginx_version='1.14.2'
+export NGINX_VERSION='1.14.2'
 #定义openssl版本
-openssl_version='$1.1.1b'
+export OPENSSL_VERSION='$1.1.1b'
 #定义pcre版本
-pcre_version='8.43'
+export PCRE_VERSION='8.43'
 #对系统进行判断
 function check_os(){
 	#CentOS
@@ -67,9 +67,9 @@ function DelPort(){
 function depend(){
 	#安装pcre
 	cd ${dir}
-	wget https://ftp.pcre.org/pub/pcre/pcre-${pcre_version}tar.gz
-	tar -zxvf ${pcre_version}.tar.gz
-	cd ${pcre_version}
+	wget https://ftp.pcre.org/pub/pcre/pcre-${PCRE_VERSION}tar.gz
+	tar -zxvf ${PCRE_VERSION}.tar.gz
+	cd ${PCRE_VERSION}
 	./configure
 	make -j4 && make -j4 install
 	#安装zlib
@@ -81,9 +81,9 @@ function depend(){
 	make -j4 && make -j4 install
 	#安装openssl
 	cd ${dir}
-	wget --no-check-certificate -O openssl.tar.gz https://www.openssl.org/source/openssl-${openssl_version}.tar.gz
+	wget --no-check-certificate -O openssl.tar.gz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 	tar -zxvf openssl.tar.gz
-	cd openssl-${openssl_version}
+	cd openssl-${OPENSSL_VERSION}
 	./config
 	make -j4 && make -j4 install
 }
@@ -115,9 +115,9 @@ function CompileInstall(){
 
 	#安装Nginx
 	cd /usr/local
-	wget http://nginx.org/download/nginx-${nginx_version}.tar.gz
-	tar -zxvf nginx-${nginx_version}.tar.gz
-	cd nginx-${nginx_version}
+	wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
+	tar -zxvf nginx-${NGINX_VERSION}.tar.gz
+	cd nginx-${NGINX_VERSION}
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
 	--with-stream \
 	--with-http_stub_status_module \
@@ -125,10 +125,10 @@ function CompileInstall(){
 	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
-	--with-pcre=../pcre-${pcre_version} \
+	--with-pcre=../pcre-${PCRE_VERSION} \
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
-	--with-openssl=../openssl-${openssl_version} \
+	--with-openssl=../openssl-${OPENSSL_VERSION} \
 	--add-module=../ngx_http_substitutions_filter_module \
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli
@@ -169,7 +169,7 @@ function BinaryInstall(){
 	useradd -M -g www www -s /sbin/nologin
 
 	#下载到指定目录
-	wget http://soft.xiaoz.org/nginx/nginx-binary-${nginx_version}.tar.gz -O /usr/local/nginx.tar.gz
+	wget http://soft.xiaoz.org/nginx/nginx-binary-${NGINX_VERSION}.tar.gz -O /usr/local/nginx.tar.gz
 
 	#解压
 	cd /usr/local && tar -zxvf nginx.tar.gz
