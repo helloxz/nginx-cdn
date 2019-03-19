@@ -67,9 +67,9 @@ function DelPort(){
 function depend(){
 	#安装pcre
 	cd ${dir}
-	wget --no-check-certificate https://ftp.pcre.org/pub/pcre/pcre-{PCRE_VERSION}.tar.gz
-	tar -zxvf pcre-{PCRE_VERSION}.tar.gz
-	cd pcre-{PCRE_VERSION}
+	wget --no-check-certificate https://ftp.pcre.org/pub/pcre/pcre-${PCRE_VERSION}.tar.gz
+	tar -zxvf pcre-${PCRE_VERSION}.tar.gz
+	cd pcre-${PCRE_VERSION}
 	./configure
 	make -j4 && make -j4 install
 	#安装zlib
@@ -81,9 +81,9 @@ function depend(){
 	make -j4 && make -j4 install
 	#安装openssl
 	cd ${dir}
-	wget --no-check-certificate -O openssl.tar.gz https://www.openssl.org/source/openssl-{OPENSSL_VERSION}.tar.gz
+	wget --no-check-certificate -O openssl.tar.gz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 	tar -zxvf openssl.tar.gz
-	cd openssl-{OPENSSL_VERSION}
+	cd openssl-${OPENSSL_VERSION}
 	./config
 	make -j4 && make -j4 install
 }
@@ -115,9 +115,9 @@ function CompileInstall(){
 
 	#安装Nginx
 	cd /usr/local
-	wget http://nginx.org/download/nginx-{NGINX_VERSION}.tar.gz
+	wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
 	tar -zxvf nginx-${NGINX_VERSION}.tar.gz
-	cd nginx-{NGINX_VERSION}
+	cd nginx-${NGINX_VERSION}
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
 	--with-stream \
 	--with-http_stub_status_module \
@@ -128,7 +128,7 @@ function CompileInstall(){
 	--with-pcre=../pcre-{PCRE_VERSION} \
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
-	--with-openssl=../openssl-{OPENSSL_VERSION} \
+	--with-openssl=../openssl-${OPENSSL_VERSION} \
 	--add-module=../ngx_http_substitutions_filter_module \
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli
