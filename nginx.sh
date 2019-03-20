@@ -1,7 +1,7 @@
 #!/bin/bash
 ############### CentOS一键安装Nginx脚本 ###############
 #Author:xiaoz.me
-#Update:2019-03-19
+#Update:2019-03-20
 ####################### END #######################
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
@@ -142,12 +142,14 @@ function CompileInstall(){
 	rm -rf ${dir}ngx_http_substitutions_filter_module*
 	rm -rf ${dir}ngx_cache_purge*
 	rm -rf ${dir}ngx_brotli*
+	rm -rf nginx.tar.gz
+	rm -rf nginx.1
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
-	wget https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
+	wget --no-check-certificate https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
 	#日志分割
-	wget https://raw.githubusercontent.com/helloxz/nginx-cdn/master/etc/logrotate.d/nginx /etc/logrotate.d/
+	wget --no-check-certificate https://raw.githubusercontent.com/helloxz/nginx-cdn/master/etc/logrotate.d/nginx -P /etc/logrotate.d/
 	mkdir -p /usr/local/nginx/conf/vhost
 	mkdir -p /usr/local/nginx/conf/cdn
 	/usr/local/nginx/sbin/nginx
@@ -173,6 +175,9 @@ function BinaryInstall(){
 
 	#解压
 	cd /usr/local && tar -zxvf nginx.tar.gz
+
+	#日志自动分割
+	wget --no-check-certificate https://raw.githubusercontent.com/helloxz/nginx-cdn/master/etc/logrotate.d/nginx -P /etc/logrotate.d/
 
 	#环境变量
 	echo "export PATH=$PATH:/usr/local/nginx/sbin" >> /etc/profile
@@ -200,6 +205,8 @@ function uninstall(){
 	sed -i "s%:/usr/local/nginx/sbin%%g" /etc/profile
 	#删除自启
     sed -i '/^.*nginx/d' /etc/rc.d/rc.local
+    #删除日志分割
+    rm -rf /etc/logrotate.d/nginx
 }
 
 #选择安装方式

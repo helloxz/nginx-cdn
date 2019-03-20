@@ -5,7 +5,7 @@ CentOS一键安装Nginx
 * CentOS 6/7
 
 ### 当前版本
-* nginx/1.14.1
+* nginx/1.14.2
 
 #### 已编译模块
 * --with-stream
@@ -20,6 +20,7 @@ CentOS一键安装Nginx
 * openssl-1.1.1
 * ngx_http_substitutions_filter_module
 * ngx_cache_purge
+* ngx_brotli
 
 ### 安装
 ```
