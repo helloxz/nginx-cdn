@@ -125,6 +125,7 @@ function CompileInstall(){
 	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
+	--with-ld-opt=-ljemalloc \
 	--with-pcre=../pcre-${pcre_version} \
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
