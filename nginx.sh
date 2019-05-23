@@ -62,7 +62,16 @@ function DelPort(){
 		firewall-cmd --reload
 	fi
 }
-
+#安装jemalloc优化内存管理
+function jemalloc(){
+	wget http://soft.xiaoz.org/linux/jemalloc-5.2.0.tgz
+	tar -zxvf jemalloc-5.2.0.tgz
+	cd jemalloc-5.2.0
+	./configure
+	make && make install
+	echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf
+	ldconfig
+}
 #安装依赖环境
 function depend(){
 	#安装pcre
@@ -224,6 +233,8 @@ case $istype in
     	check_os
     	get_ip
     	chk_firewall
+    	#安装jemalloc
+    	jemalloc
     	#安装依赖
     	depend
     	#安装nginx
@@ -233,6 +244,8 @@ case $istype in
     	check_os
     	get_ip
     	chk_firewall
+    	#安装jemalloc
+    	jemalloc
     	BinaryInstall
     ;;
     3) 
