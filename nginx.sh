@@ -9,9 +9,9 @@ export PATH
 
 dir='/usr/local/'
 #定义nginx版本
-nginx_version='1.14.2'
+nginx_version='1.16.0'
 #定义openssl版本
-openssl_version='1.1.1b'
+openssl_version='1.1.1c'
 #定义pcre版本
 pcre_version='8.43'
 #对系统进行判断
@@ -124,9 +124,9 @@ function CompileInstall(){
 
 	#安装Nginx
 	cd /usr/local
-	wget http://nginx.org/download/nginx-${nginx_version}.tar.gz
-	tar -zxvf nginx-${nginx_version}.tar.gz
-	cd nginx-${nginx_version}
+	wget https://wget.ovh/nginx/xcdn-${nginx_version}.tar.gz
+	tar -zxvf xcdn-${nginx_version}.tar.gz
+	cd xcdn-${nginx_version}
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
 	--with-stream \
 	--with-http_stub_status_module \
@@ -145,7 +145,7 @@ function CompileInstall(){
 	make -j4 && make -j4 install
 
 	#一点点清理工作
-	rm -rf ${dir}nginx-1.*
+	rm -rf ${dir}xcdn-1.*
 	rm -rf ${dir}zlib-1.*
 	rm -rf ${dir}pcre-8.*
 	rm -rf ${dir}openssl*
