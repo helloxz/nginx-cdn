@@ -154,6 +154,8 @@ function CompileInstall(){
 	rm -rf ${dir}ngx_brotli*
 	rm -rf nginx.tar.gz
 	rm -rf nginx.1
+	cd
+	rm -rf jemalloc*
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
