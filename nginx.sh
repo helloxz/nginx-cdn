@@ -183,7 +183,7 @@ function BinaryInstall(){
 	useradd -M -g www www -s /sbin/nologin
 
 	#下载到指定目录
-	wget http://soft.xiaoz.org/nginx/nginx-binary-${nginx_version}.tar.gz -O /usr/local/nginx.tar.gz
+	wget http://soft.xiaoz.org/nginx/xcdn-binary-${nginx_version}.tar.gz -O /usr/local/nginx.tar.gz
 
 	#解压
 	cd /usr/local && tar -zxvf nginx.tar.gz
