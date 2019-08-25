@@ -172,6 +172,7 @@ function CompileInstall(){
 
 	#开机自启
 	echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
+	chmod +x /etc/rc.d/rc.local
 
 	echo "Nginx installed successfully. Please visit the http://${osip}"
 }
@@ -199,6 +200,7 @@ function BinaryInstall(){
 	/usr/local/nginx/sbin/nginx
 	#开机自启
 	echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
+	chmod +x /etc/rc.d/rc.local
 
 	echo "------------------------------------------------"
 	echo "Nginx installed successfully. Please visit the http://${osip}"
