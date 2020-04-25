@@ -103,6 +103,7 @@ function install_service(){
 	then
 		wget -P /etc/systemd/system https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.service
 		systemctl daemon-reload
+		systemctl enable nginx
 	fi
 }
 
