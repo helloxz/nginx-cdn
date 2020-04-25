@@ -184,7 +184,7 @@ function CompileInstall(){
 	install_service
 	#echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
 	#chmod +x /etc/rc.d/rc.local
-
+	echo "------------------------------------------------"
 	echo "XCDN installed successfully. Please visit the http://${osip}"
 }
 
