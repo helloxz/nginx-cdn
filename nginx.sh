@@ -9,9 +9,9 @@ export PATH
 
 dir='/usr/local/'
 #定义nginx版本
-nginx_version='1.16.1'
+nginx_version='1.18'
 #定义openssl版本
-openssl_version='1.1.1c'
+openssl_version='1.1.1g'
 #定义pcre版本
 pcre_version='8.43'
 #对系统进行判断
@@ -31,7 +31,7 @@ function check_os(){
 }
 #获取服务器公网IP
 function get_ip(){
-	osip=$(curl https://api.ttt.sh/ip/qqwry/?type=ip)
+	osip=$(curl -4s https://api.ip.sb/ip)
 	echo $osip
 }
 #防火墙放行端口
@@ -96,7 +96,15 @@ function depend(){
 	./config
 	make -j4 && make -j4 install
 }
-#清理工作
+
+#安装服务
+function install_service(){
+	if [ -d "/etc/systemd/system" ]
+	then
+		wget -P /etc/systemd/system https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.service
+		systemctl daemon-reload
+	fi
+}
 
 #编译安装Nginx
 function CompileInstall(){
@@ -134,6 +142,7 @@ function CompileInstall(){
 	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
+	--with-http_slice_module \
 	--with-ld-opt=-ljemalloc \
 	--with-pcre=../pcre-${pcre_version} \
 	--with-pcre-jit \
@@ -170,11 +179,12 @@ function CompileInstall(){
 	echo "export PATH=$PATH:/usr/local/nginx/sbin" >> /etc/profile
 	export PATH=$PATH:'/usr/local/nginx/sbin'
 
-	#开机自启
-	echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
-	chmod +x /etc/rc.d/rc.local
+	#安装服务
+	install_service
+	#echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
+	#chmod +x /etc/rc.d/rc.local
 
-	echo "Nginx installed successfully. Please visit the http://${osip}"
+	echo "XCDN installed successfully. Please visit the http://${osip}"
 }
 
 #二进制安装Nginx
@@ -198,12 +208,14 @@ function BinaryInstall(){
 
 	#启动
 	/usr/local/nginx/sbin/nginx
+	#安装服务
+	install_service
 	#开机自启
-	echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
-	chmod +x /etc/rc.d/rc.local
+	#echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
+	#chmod +x /etc/rc.d/rc.local
 
 	echo "------------------------------------------------"
-	echo "Nginx installed successfully. Please visit the http://${osip}"
+	echo "XCDN installed successfully. Please visit the http://${osip}"
 }
 
 #卸载Nginx
