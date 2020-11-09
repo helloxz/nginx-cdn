@@ -151,14 +151,14 @@ function CompileInstall(){
 	tar -zxvf xcdn-${nginx_version}.tar.gz
 	cd xcdn-${nginx_version}
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
-	--with-stream \
+	--with-stream=dynamic \
 	--with-http_stub_status_module \
 	--with-http_v2_module \
 	--with-http_ssl_module \
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
 	--with-http_slice_module \
-	--with-http_image_filter_module \
+	--with-http_image_filter_module=dynamic \
 	--with-pcre=../pcre-${pcre_version} \
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
@@ -266,7 +266,7 @@ case $istype in
     	#安装jemalloc
     	#jemalloc,2020/11/09暂时去掉jemalloc
     	#安装liggd，裁剪图像需要
-    	libgd
+    	#libgd
     	#安装依赖
     	depend
     	#安装nginx
