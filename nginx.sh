@@ -7,6 +7,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
+
 dir='/usr/local/'
 #定义nginx版本
 nginx_version='1.18'
@@ -72,6 +73,17 @@ function jemalloc(){
 	echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf
 	ldconfig
 }
+#安装libgd，nginx图像裁剪需要
+function libgd(){
+	wget https://github.com/libgd/libgd/releases/download/gd-2.3.0/libgd-2.3.0.tar.gz
+	tar -zxvf libgd-2.3.0.tar.gz
+	cd libgd-2.3.0
+	./configure
+	make && make install
+	#设置依赖库路径
+	ln -s /usr/local/lib/libgd.so.3 /lib64/libgd.so.3
+}
+
 #安装依赖环境
 function depend(){
 	#安装pcre
@@ -253,6 +265,8 @@ case $istype in
     	chk_firewall
     	#安装jemalloc
     	#jemalloc,2020/11/09暂时去掉jemalloc
+    	#安装liggd，裁剪图像需要
+    	libgd
     	#安装依赖
     	depend
     	#安装nginx
