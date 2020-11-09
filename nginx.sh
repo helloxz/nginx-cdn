@@ -119,8 +119,10 @@ function CompileInstall(){
 
 	#下载stub_status_module模块
 	cd /usr/local
-	wget http://soft.xiaoz.org/nginx/ngx_http_substitutions_filter_module.zip
-	unzip ngx_http_substitutions_filter_module.zip
+
+	### 2020/11/09 此模块暂不使用
+	#wget http://soft.xiaoz.org/nginx/ngx_http_substitutions_filter_module.zip
+	#unzip ngx_http_substitutions_filter_module.zip
 
 	#下载purecache模块
 	cd /usr/local && wget http://soft.xiaoz.org/nginx/ngx_cache_purge-2.3.tar.gz
@@ -144,12 +146,11 @@ function CompileInstall(){
 	--with-http_gzip_static_module \
 	--with-http_realip_module \
 	--with-http_slice_module \
-	--with-ld-opt=-ljemalloc \
+	--with-http_image_filter_module \
 	--with-pcre=../pcre-${pcre_version} \
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
 	--with-openssl=../openssl-${openssl_version} \
-	--add-module=../ngx_http_substitutions_filter_module \
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli
 	make -j4 && make -j4 install
@@ -159,7 +160,7 @@ function CompileInstall(){
 	rm -rf ${dir}zlib-1.*
 	rm -rf ${dir}pcre-8.*
 	rm -rf ${dir}openssl*
-	rm -rf ${dir}ngx_http_substitutions_filter_module*
+	#rm -rf ${dir}ngx_http_substitutions_filter_module*
 	rm -rf ${dir}ngx_cache_purge*
 	rm -rf ${dir}ngx_brotli*
 	rm -rf nginx.tar.gz
@@ -251,7 +252,7 @@ case $istype in
     	get_ip
     	chk_firewall
     	#安装jemalloc
-    	jemalloc
+    	#jemalloc,2020/11/09暂时去掉jemalloc
     	#安装依赖
     	depend
     	#安装nginx
@@ -262,7 +263,7 @@ case $istype in
     	get_ip
     	chk_firewall
     	#安装jemalloc
-    	jemalloc
+    	#jemalloc，2020/11/09暂时去掉jemalloc
     	BinaryInstall
     ;;
     3) 
