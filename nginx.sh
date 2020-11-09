@@ -76,13 +76,6 @@ function jemalloc(){
 #安装libgd，nginx图像裁剪需要
 function libgd(){
 	yum -y install gd-devel
-	wget https://github.com/libgd/libgd/releases/download/gd-2.3.0/libgd-2.3.0.tar.gz
-	tar -zxvf libgd-2.3.0.tar.gz
-	cd libgd-2.3.0
-	./configure
-	make && make install
-	#设置依赖库路径
-	ln -s /usr/local/lib/libgd.so.3 /lib64/libgd.so.3
 }
 
 #安装依赖环境
