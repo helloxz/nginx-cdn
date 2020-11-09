@@ -266,7 +266,7 @@ case $istype in
     	#安装jemalloc
     	#jemalloc,2020/11/09暂时去掉jemalloc
     	#安装liggd，裁剪图像需要
-    	#libgd
+    	libgd
     	#安装依赖
     	depend
     	#安装nginx
