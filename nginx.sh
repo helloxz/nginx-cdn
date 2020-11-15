@@ -169,7 +169,8 @@ function CompileInstall(){
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli \
 	--add-dynamic-module=${dir}testcookie-nginx-module \
-	--add-dynamic-module=${dir}ngx_http_geoip2_module
+	--add-dynamic-module=${dir}ngx_http_geoip2_module \
+	--add-dynamic-module=${dir}ngx_http_ipdb_module
 	make -j4 && make -j4 install
 
 	#一点点清理工作
