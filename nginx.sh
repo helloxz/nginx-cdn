@@ -21,12 +21,11 @@ function check_os(){
 	#CentOS
 	if test -e "/etc/redhat-release"
 		then
-		yum -y install gcc gcc-c++ perl unzip libmaxminddb-devel gd-devel json-c-devel
+		yum -y install gcc gcc-c++ perl unzip libmaxminddb-devel gd-devel
 	#Debian
 	elif test -e "/etc/debian_version"
 		then
-		apt-get -y install perl unzip
-		apt-get -y install build-essential
+		apt-get -y install perl unzip build-essential libmaxminddb-dev libgd-dev
 	else
 		echo "当前系统不支持！"
 	fi
@@ -103,9 +102,9 @@ function depend(){
 	wget http://soft.xiaoz.org/nginx/testcookie-nginx-module.zip
 	unzip testcookie-nginx-module.zip
 	#下载ngx_http_ipdb_module
-	cd ${dir}
-	wget http://soft.xiaoz.org/nginx/ngx_http_ipdb_module.zip
-	unzip ngx_http_ipdb_module.zip
+	#cd ${dir}
+	#wget http://soft.xiaoz.org/nginx/ngx_http_ipdb_module.zip
+	#unzip ngx_http_ipdb_module.zip
 	#下载ngx_http_geoip2_module
 	cd ${dir}
 	wget http://soft.xiaoz.org/nginx/ngx_http_geoip2_module.zip
@@ -169,8 +168,7 @@ function CompileInstall(){
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli \
 	--add-dynamic-module=${dir}testcookie-nginx-module \
-	--add-dynamic-module=${dir}ngx_http_geoip2_module \
-	--add-dynamic-module=${dir}ngx_http_ipdb_module
+	--add-dynamic-module=${dir}ngx_http_geoip2_module
 	make -j4 && make -j4 install
 
 	#一点点清理工作
