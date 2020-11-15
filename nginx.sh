@@ -21,7 +21,7 @@ function check_os(){
 	#CentOS
 	if test -e "/etc/redhat-release"
 		then
-		yum -y install gcc gcc-c++ perl unzip
+		yum -y install gcc gcc-c++ perl unzip libmaxminddb-devel gd-devel json-c-devel
 	#Debian
 	elif test -e "/etc/debian_version"
 		then
@@ -74,10 +74,6 @@ function jemalloc(){
 	echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf
 	ldconfig
 }
-#安装libgd，nginx图像裁剪需要
-function libgd(){
-	yum -y install gd-devel
-}
 
 #安装依赖环境
 function depend(){
@@ -106,10 +102,10 @@ function depend(){
 	cd ${dir}
 	wget http://soft.xiaoz.org/nginx/testcookie-nginx-module.zip
 	unzip testcookie-nginx-module.zip
-	#下载nginx-ipip-module
-	#cd ${dir}
-	#wget http://soft.xiaoz.org/nginx/nginx-ipip-module.zip
-	#unzip nginx-ipip-module.zip
+	#下载ngx_http_ipdb_module
+	cd ${dir}
+	wget http://soft.xiaoz.org/nginx/ngx_http_ipdb_module.zip
+	unzip ngx_http_ipdb_module.zip
 	#下载ngx_http_geoip2_module
 	cd ${dir}
 	wget http://soft.xiaoz.org/nginx/ngx_http_geoip2_module.zip
@@ -181,8 +177,9 @@ function CompileInstall(){
 	rm -rf ${dir}zlib-1.*
 	rm -rf ${dir}pcre-8.*
 	rm -rf ${dir}openssl*
-	rm -rf ${dir}testcookie-nginx-module
-	rm -rf ${dir}ngx_http_geoip2_module
+	rm -rf ${dir}testcookie-nginx-module*
+	rm -rf ${dir}ngx_http_geoip2_module*
+	rm -rf ${dir}ngx_http_ipdb_module.zip
 	#rm -rf ${dir}ngx_http_substitutions_filter_module*
 	rm -rf ${dir}ngx_cache_purge*
 	rm -rf ${dir}ngx_brotli*
@@ -276,8 +273,6 @@ case $istype in
     	chk_firewall
     	#安装jemalloc
     	#jemalloc,2020/11/09暂时去掉jemalloc
-    	#安装liggd，裁剪图像需要
-    	libgd
     	#安装依赖
     	depend
     	#安装nginx
