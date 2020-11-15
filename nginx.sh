@@ -107,9 +107,13 @@ function depend(){
 	wget http://soft.xiaoz.org/nginx/testcookie-nginx-module.zip
 	unzip testcookie-nginx-module.zip
 	#下载nginx-ipip-module
+	#cd ${dir}
+	#wget http://soft.xiaoz.org/nginx/nginx-ipip-module.zip
+	#unzip nginx-ipip-module.zip
+	#下载ngx_http_geoip2_module
 	cd ${dir}
-	wget http://soft.xiaoz.org/nginx/nginx-ipip-module.zip
-	unzip nginx-ipip-module.zip
+	wget http://soft.xiaoz.org/nginx/ngx_http_geoip2_module.zip
+	unzip ngx_http_geoip2_module.zip
 }
 
 #安装服务
@@ -169,7 +173,7 @@ function CompileInstall(){
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli \
 	--add-dynamic-module=${dir}testcookie-nginx-module \
-	--add-dynamic-module=${dir}nginx-ipip-module
+	--add-dynamic-module=${dir}ngx_http_geoip2_module
 	make -j4 && make -j4 install
 
 	#一点点清理工作
@@ -178,7 +182,7 @@ function CompileInstall(){
 	rm -rf ${dir}pcre-8.*
 	rm -rf ${dir}openssl*
 	rm -rf ${dir}testcookie-nginx-module
-	rm -rf ${dir}nginx-ipip-module
+	rm -rf ${dir}ngx_http_geoip2_module
 	#rm -rf ${dir}ngx_http_substitutions_filter_module*
 	rm -rf ${dir}ngx_cache_purge*
 	rm -rf ${dir}ngx_brotli*
