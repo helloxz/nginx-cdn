@@ -11,7 +11,7 @@ export PATH
 #安装依赖
 function depend(){
 	apt-get -y update
-	apt-get -y install curl wget libmaxminddb-dev libgd-dev
+	apt-get -y install curl wget libmaxminddb-dev libgd-dev cron
 }
 
 
@@ -43,7 +43,8 @@ function BinaryInstall(){
 	#/usr/local/nginx/sbin/nginx
 	#给docker启动脚本添加执行权限
 	chmod +x /usr/sbin/run.sh
-	
+	#计划任务
+	echo '*/1 * * * * /usr/sbin/run.sh autoreload >> /dev/null' >> /var/spool/cron/crontabs/root
 	#开机自启
 	#echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
 	#chmod +x /etc/rc.d/rc.local
