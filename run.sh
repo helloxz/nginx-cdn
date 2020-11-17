@@ -4,8 +4,7 @@
 #自动重载
 if [ ${1}x == 'autoreload'x ]
 	then
-		find /usr/local/nginx/conf/cdn -name '*.conf' -mmin -1 -exec /usr/sbin/run.sh reload \;
-		find /usr/local/nginx/conf/vhost -name '*.conf' -mmin -1 -exec /usr/sbin/run.sh reload \;
+		find /usr/local/nginx/conf -name '*.conf' -mmin -2 -exec /usr/sbin/run.sh reload \;
 	elif [ ${1}x == 'reload'x ]
 	then
 		/usr/local/nginx/sbin/nginx -t && /usr/local/nginx/sbin/nginx -s reload
