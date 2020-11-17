@@ -4,6 +4,8 @@ FROM debian:stable-slim
 WORKDIR /root
 #复制安装脚本
 COPY ./docker_nginx.sh /root
+#复制启动脚本
+COPY ./run.sh /usr/sbin
 #执行安装脚本
 RUN bash docker_nginx.sh
 #暴露站点文件夹
