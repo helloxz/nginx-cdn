@@ -50,5 +50,7 @@ function BinaryInstall(){
 	echo "XCDN installed successfully."
 }
 
+#安装依赖
+depend
 #执行安装
 BinaryInstall
