@@ -41,6 +41,8 @@ function BinaryInstall(){
 
 	#启动
 	/usr/local/nginx/sbin/nginx
+	#给docker启动脚本添加执行权限
+	chmod +x /usr/sbin/run.sh
 	
 	#开机自启
 	#echo "/usr/local/nginx/sbin/nginx" >> /etc/rc.d/rc.local
@@ -48,6 +50,7 @@ function BinaryInstall(){
 
 	echo "------------------------------------------------"
 	echo "XCDN installed successfully."
+	echo "------------------------------------------------"
 }
 
 #安装依赖
