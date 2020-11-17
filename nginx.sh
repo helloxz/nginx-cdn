@@ -25,7 +25,8 @@ function check_os(){
 	#Debian
 	elif test -e "/etc/debian_version"
 		then
-		apt-get -y install perl unzip build-essential libmaxminddb-dev libgd-dev
+		apt-get -y update
+		apt-get -y install curl wget perl unzip build-essential libmaxminddb-dev libgd-dev
 	else
 		echo "当前系统不支持！"
 	fi
