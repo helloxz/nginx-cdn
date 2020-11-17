@@ -53,8 +53,13 @@ function BinaryInstall(){
 	echo "XCDN installed successfully."
 	echo "------------------------------------------------"
 }
-
+#收尾工作
+function finishing(){
+	#清理nginx二进制文件
+	rm -rf /usr/local/nginx.tar.gz
+}
 #安装依赖
 depend
 #执行安装
 BinaryInstall
+finishing
