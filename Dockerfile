@@ -14,4 +14,4 @@ VOLUME /usr/local/nginx/conf/cdn
 #暴露日志文件夹
 VOLUME /usr/local/nginx/logs
 #暴露配置文件
-VOLUME /usr/local/nginx/conf/nginx.conf
+#VOLUME /usr/local/nginx/conf/nginx.conf
