@@ -16,6 +16,7 @@ if [ $1 == 'autoreload' ]
 	then
 		/usr/local/nginx/sbin/nginx
 	elif [ -z $1 ]
+	then
 		#启动nginx
 		/usr/local/nginx/sbin/nginx
 		#启动cron
