@@ -40,7 +40,7 @@ function BinaryInstall(){
 	export PATH=$PATH:'/usr/local/nginx/sbin'
 
 	#启动
-	/usr/local/nginx/sbin/nginx
+	#/usr/local/nginx/sbin/nginx
 	#给docker启动脚本添加执行权限
 	chmod +x /usr/sbin/run.sh
 	
