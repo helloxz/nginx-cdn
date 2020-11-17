@@ -4,8 +4,8 @@
 #自动重载
 if [ $1 == 'autoreload' ]
 	then
-		find /usr/local/nginx/conf/cdn -mmin 1 -exec /usr/local/nginx/sbin/nginx -t && /usr/local/nginx/sbin/nginx -s reload {} \;
-		find /usr/local/nginx/conf/vhost -mmin 1 -exec /usr/local/nginx/sbin/nginx -t && /usr/local/nginx/sbin/nginx -s reload {} \;
+		find /usr/local/nginx/conf/cdn -mmin 1 -exec "/usr/local/nginx/sbin/nginx -t && /usr/local/nginx/sbin/nginx" -s reload {} \;
+		find /usr/local/nginx/conf/vhost -mmin 1 -exec "/usr/local/nginx/sbin/nginx -t && /usr/local/nginx/sbin/nginx" -s reload {} \;
 	elif [ $1 == 'reload' ]
 	then
 		/usr/local/nginx/sbin/nginx -t && /usr/local/nginx/sbin/nginx -s reload
