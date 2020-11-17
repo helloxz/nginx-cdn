@@ -1,5 +1,7 @@
 #基于哪个镜像制作
 FROM debian:stable-slim
+#设置时区
+ENV TZ=Asia/Shanghai
 #工作目录
 WORKDIR /root
 #复制安装脚本
