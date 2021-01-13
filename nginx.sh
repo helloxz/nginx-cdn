@@ -135,9 +135,9 @@ function CompileInstall(){
 	#下载stub_status_module模块
 	cd /usr/local
 
-	### 2020/11/09 此模块暂不使用
-	#wget http://soft.xiaoz.org/nginx/ngx_http_substitutions_filter_module.zip
-	#unzip ngx_http_substitutions_filter_module.zip
+	### 重新启用替换模块
+	wget http://soft.xiaoz.org/nginx/ngx_http_substitutions_filter_module.zip
+	unzip ngx_http_substitutions_filter_module.zip
 
 	#下载purecache模块
 	cd /usr/local && wget http://soft.xiaoz.org/nginx/ngx_cache_purge-2.3.tar.gz
@@ -154,7 +154,7 @@ function CompileInstall(){
 	tar -zxvf xcdn-${nginx_version}.tar.gz
 	cd xcdn-${nginx_version}
 	./configure --prefix=/usr/local/nginx --user=www --group=www \
-	--with-stream=dynamic \
+	--with-stream \
 	--with-http_stub_status_module \
 	--with-http_v2_module \
 	--with-http_ssl_module \
@@ -166,9 +166,9 @@ function CompileInstall(){
 	--with-pcre-jit \
 	--with-zlib=../zlib-1.2.11 \
 	--with-openssl=../openssl-${openssl_version} \
+	--add-module=../ngx_http_substitutions_filter_module \
 	--add-module=../ngx_cache_purge \
 	--add-module=../ngx_brotli \
-	--add-dynamic-module=${dir}testcookie-nginx-module \
 	--add-dynamic-module=${dir}ngx_http_geoip2_module
 	make -j4 && make -j4 install
 
@@ -180,7 +180,7 @@ function CompileInstall(){
 	rm -rf ${dir}testcookie-nginx-module*
 	rm -rf ${dir}ngx_http_geoip2_module*
 	rm -rf ${dir}ngx_http_ipdb_module.zip
-	#rm -rf ${dir}ngx_http_substitutions_filter_module*
+	rm -rf ${dir}ngx_http_substitutions_filter_module*
 	rm -rf ${dir}ngx_cache_purge*
 	rm -rf ${dir}ngx_brotli*
 	rm -rf nginx.tar.gz
